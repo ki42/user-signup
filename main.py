@@ -8,11 +8,6 @@ app.config['DEBUG'] = True
 def index():
     return render_template("index.html", title = "Signup", color_error=".error { color:red; }")
 
-@app.route("/welcome", methods=["POST"])
-def welcome():
-    username = request.form["username"]
-    return render_template('username.html', name=username)
-
 @app.route('/validate-data', methods =['POST'])
 def validate_data():
     username = request.form["username"]
@@ -55,9 +50,9 @@ def validate_data():
     else:
         verifypass = verifypass
         
-    if email.count(@) != 1:
+    if email.count("@") != 1:
         email_error = "There must be exactly 1 @ sign."
-    elif email.count(.) !=1:
+    elif email.count(".") !=1:
         email_error = "There must be exactly 1 . sign."
     elif len(email) < 3:
         email_error = "Must be more than 3 characters."       
@@ -75,10 +70,14 @@ def validate_data():
             verifypass_error=verifypass_error,
             email_error=email_error
             )    
-            
+
 @app.route("/welcome")
 def welcome():
-    username = request.args.get("username")
-    return '<h1>Welcome {0}. Thanks for submitting!</h1>'.format(username)
+    username = request.get.args("username")
+    return render_template('welcome.html', name=username)           
+#@app.route("/welcome")
+#def welcome():
+#    username = request.args.get("username")
+#    return '<h1>Welcome {0}. Thanks for submitting!</h1>'.format(username)
 
 app.run()
