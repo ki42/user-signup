@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 
 {% block content %}
-username = request.form[cgi.escape('name')]
-<h1>Welcome! + """{{0}}""".format(username)</h1>
+    <h1>Welcome! + {{username}}</h1>
 {% endblock %}

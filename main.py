@@ -5,16 +5,17 @@ app = Flask(__name__)
 app.config['DEBUG'] = True
 
 @app.route("/")
-def index():
-    return render_template("index.html", title = "Signup", color_error=".error { color:red; }")
 
-@app.route('/validate-data', methods =['POST'])
+def index():
+    return render_template("index.html")
+
+@app.route('/validate-data', methods=['POST'])
 def validate_data():
     username = request.form["username"]
     password = request.form["password"]
     verifypass = request.form["verifypass"]
     email = request.form["email"]   
-    
+
     username_error=""
     password_error =""
     verifypass_error =""
@@ -62,7 +63,7 @@ def validate_data():
         email = email
 
     if not username_error and not password_error and not verifypass_error and not email_error:  #this passes if the strings stay empty
-        return redirect("/welcome?username={0}".format(username))
+        return render_template("welcome.html", username=username)
     else:  #it had an error
         return render_template("index.html", 
             username_error=username_error,
@@ -70,14 +71,5 @@ def validate_data():
             verifypass_error=verifypass_error,
             email_error=email_error
             )    
-
-@app.route("/welcome")
-def welcome():
-    username = request.get.args("username")
-    return render_template('welcome.html', name=username)           
-#@app.route("/welcome")
-#def welcome():
-#    username = request.args.get("username")
-#    return '<h1>Welcome {0}. Thanks for submitting!</h1>'.format(username)
 
 app.run()
