@@ -7,7 +7,13 @@ app.config['DEBUG'] = True
 @app.route("/")
 
 def index():
-    return render_template("index.html")
+    try:
+        username = request.form["username"]
+        email = request.form["email"]  
+        if username or email:
+           return render_template("index.html", username, email)
+    except:
+        return render_template("index.html")
 
 @app.route('/validate-data', methods=['POST'])
 def validate_data():
@@ -37,7 +43,7 @@ def validate_data():
         password_error = "Must be more than 3 characters."       
         password = ""
     elif len(password) > 20:
-        password_error = "Username is too long. Must be less than 20 characters."
+        password_error = "Password is too long. Must be less than 20 characters."
         password = ""
     else:
         password = password
@@ -66,6 +72,8 @@ def validate_data():
         return render_template("welcome.html", username=username)
     else:  #it had an error
         return render_template("index.html", 
+            username=username,
+            email=email,
             username_error=username_error,
             password_error=password_error,
             verifypass_error=verifypass_error,
